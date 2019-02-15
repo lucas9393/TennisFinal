@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TennisFinal.Models
 {
-    public class ExpensesDataAcessLayer
+    public class PrenotationsDataAcessLayer : DataAcessLayer
     {
         MatchDBContext db = new MatchDBContext();
 
@@ -67,13 +67,13 @@ namespace TennisFinal.Models
             }
         }
 
-        //Get the data for a particular expense  
-        public Prenotation GetExpenseData(int id)
+        //Ottieni i dati di una certa prenotazione 
+        public Prenotation GetPrenotationData(int id)
         {
             try
             {
-                Prenotation expense = db.Prenotations.Find(id);
-                return expense;
+                Prenotation prenotation = db.Prenotations.Find(id);
+                return prenotation;
             }
             catch
             {

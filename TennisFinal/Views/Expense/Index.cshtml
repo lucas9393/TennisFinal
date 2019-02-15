@@ -14,26 +14,23 @@
 
 <div>
     <div style="float:left">
-        <button class="btn btn-primary" onclick="AddEditExpenses(0)">Aggiungi prenotazione</button>
+        <button class="btn btn-primary" onclick="AddEditPrenotations(0)">Aggiungi prenotazione</button>
     </div>
 
     <div style="float:right; width:40%;">
         <form asp-controller="Expense" asp-action="Index" class="form-group">
             <div class="col-sm-6">
 
-                <input class="form-control" type="text" name="SearchString" placeholder="Campo">
+                
+                <select class="form-control" name="SearchString">
+                    <option value="">-- Seleziona campo --</option>
+                    <option value="TerraBattuta">Terra battuta</option>
+                    <option value="Cemento">Cemento</option>
+                    <option value="Sintetico">Sintetico</option>
+                    <option value="Erba">Erba</option>
+                </select>
             </div>
             <button type="submit" class="btn btn-default btn-info">Filtra per campo</button>
-        </form>
-    </div>
-
-    <div style="float:right; width:40%;">
-        <form asp-controller="Expense" asp-action="Index" class="form-group">
-            <div class="col-sm-6">
-
-                <input class="form-control" type="text" name="SearchString" placeholder="Data">
-            </div>
-            <button type="submit" class="btn btn-default btn-info">Filtra per data</button>
         </form>
     </div>
 
@@ -49,7 +46,7 @@
             <th>@Html.DisplayNameFor(model => model.Data)</th>
             <th>@Html.DisplayNameFor(model => model.Partita)</th>
          
-            <th>Modifica</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -62,22 +59,21 @@
                 <td>@Html.DisplayFor(modelItem => item.Partita)</td>
                
                 <td>
-                    <button class="btn btn-default" onclick="AddEditExpenses(@item.Id_Prenotazione)">Modifica</button>
-                   
+                    <button class="btn btn-default" onclick="AddEditPrenotations(@item.Id_Prenotazione)">Modifica</button>                   
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<div class="modal fade" id="expenseFormModel" role="dialog">
+<div class="modal fade" id="prenotationFormModel" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <a href="#" class="close" data-dismiss="modal">&times;</a>
                 <h3 id="title" class="modal-title">Aggiungi prenotazione</h3>
             </div>
-            <div class="modal-body" id="expenseFormModelDiv">
+            <div class="modal-body" id="prenotationFormModelDiv">
             </div>
         </div>
     </div>
@@ -87,24 +83,24 @@
 
 <script>
 
-    var AddEditExpenses = function (itemId) {
-        var url = "/Expense/AddEditExpenses?itemId=" + itemId;
+    var AddEditPrenotations = function (itemId) {
+        var url = "/Expense/AddEditPrenotations?itemId=" + itemId;
         if (itemId > 0)
             $('#title').html("Edit Expense");
 
-        $("#expenseFormModelDiv").load(url, function () {
-            $("#expenseFormModel").modal("show");
+        $("#prenotationFormModelDiv").load(url, function () {
+            $("#prenotationFormModel").modal("show");
 
         });
 
-        $('#expenseFormModel').on('shown.bs.modal', function () {
+        $('#prenotationFormModel').on('shown.bs.modal', function () {
 
             $('#calender-container .input-group.date').datepicker({
                 todayBtn: true,
                 calendarWeeks: true,
                 todayHighlight: true,
                 autoclose: true,
-                container: '#expenseFormModel modal-body'
+                container: '#prenotationFormModel modal-body'
             });
 
         });
@@ -116,7 +112,7 @@
 <script>
 
     $('body').on('click', "#btnSubmit", function () {
-        var myformdata = $("#expenseForm").serialize();
+        var myformdata = $("#prenotationForm").serialize();
 
         $.ajax({
             type: "POST",

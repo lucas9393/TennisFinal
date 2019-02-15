@@ -5,32 +5,32 @@ using System.Threading.Tasks;
 using TennisFinal.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExpenseManager.Controllers
+namespace TennisFinal.Controllers
 {
     public class ExpenseController : Controller
     {
-        ExpensesDataAcessLayer objexpense = new ExpensesDataAcessLayer();
+        PrenotationsDataAcessLayer objPrenotation = new PrenotationsDataAcessLayer();
 
         public IActionResult Index(string searchString)
         {
-            List<Prenotation> lstEmployee = new List<Prenotation>();
-            lstEmployee = objexpense.GetAllPrenotations().ToList();
+            List<Prenotation> lstPrenotations = new List<Prenotation>();
+            lstPrenotations = objPrenotation.GetAllPrenotations().ToList();
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                lstEmployee = objexpense.GetSearchFields(searchString).ToList();
+                lstPrenotations = objPrenotation.GetSearchFields(searchString).ToList();
             }
-            return View(lstEmployee);
+            return View(lstPrenotations);
         }
 
-        public ActionResult AddEditExpenses(int itemId)
+        public ActionResult AddEditPrenotations(int itemId)
         {
             Prenotation model = new Prenotation();
             if (itemId > 0)
             {
-                model = objexpense.GetExpenseData(itemId);
+                model = objPrenotation.GetPrenotationData(itemId);
             }
-            return PartialView("_expenseForm", model);
+            return PartialView("_prenotationForm", model);
         }
 
         [HttpPost]
@@ -40,11 +40,11 @@ namespace ExpenseManager.Controllers
             {
                 if (prenotation.Id_Prenotazione > 0)
                 {
-                    objexpense.UpdatePrenotation(prenotation);
+                    objPrenotation.UpdatePrenotation(prenotation);
                 }
                 else
                 {
-                    objexpense.AddPrenotation(prenotation);
+                    objPrenotation.AddPrenotation(prenotation);
                 }
             }
             return RedirectToAction("Index");
